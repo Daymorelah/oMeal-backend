@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# production
+build
+
+# misc
+.env
+dist
+
+#vscode
+.vscode
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+package-lock.json
