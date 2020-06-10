@@ -6,7 +6,15 @@
   "author": "Ademola Hussain",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/server.js --exec babel-node"
+    "start": "nodemon src/server.js --exec babel-node",
+    "db:migrate": "./node_modules/.bin/babel-node node_modules/.bin/sequelize db:migrate",
+    "db:undo:migration": "./node_modules/.bin/babel-node node_modules/.bin/sequelize db:migrate:undo:all",
+    "db:seed": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize db:seed:all",
+    "db:undo:seed": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize db:seed:undo:all",
+    "recreate_migration":"yarn db:undo:migration && yarn db:migrate"
+  },
+  "engines": {
+    "node": "12.16.1"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
