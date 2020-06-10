@@ -11,7 +11,10 @@
     "db:undo:migration": "./node_modules/.bin/babel-node node_modules/.bin/sequelize db:migrate:undo:all",
     "db:seed": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize db:seed:all",
     "db:undo:seed": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize db:seed:undo:all",
-    "recreate_migration":"yarn db:undo:migration && yarn db:migrate"
+    "recreate_migration": "yarn db:undo:migration && yarn db:migrate",
+    "test": "NODE_ENV=test yarn db:undo:migrate:test && NODE_ENV=test yarn db:migrate:test && NODE_ENV=test yarn db:seed && NODE_ENV=test nyc --reporter=html --reporter=text mocha  --exit -r @babel/register -r @babel/polyfill 'src/**/**.spec.js'",
+    "db:undo:migrate:test": "NODE_ENV=test node_modules/.bin/sequelize db:migrate:undo:all",
+    "db:migrate:test": "NODE_ENV=test node_modules/.bin/sequelize db:migrate"
   },
   "engines": {
     "node": "12.16.1"
@@ -22,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.2.1",
@@ -37,8 +41,15 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/register": "^7.10.1",
     "babel-eslint": "^10.1.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.1.0",
+    "mocha": "^7.1.0",
+    "mocha-lcov-reporter": "^1.3.0",
     "nodemon": "^2.0.4",
-    "sequelize-cli": "^5.5.1"
+    "nyc": "^15.1.0",
+    "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
   }
 }

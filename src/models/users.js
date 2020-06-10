@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         len: {
-          args: [6, 32],
-          msg: 'string length is not in this range'
+          args: [5, 32],
+          msg: 'username must be more than 5 characters'
         }
       }
     },
@@ -60,6 +60,9 @@ module.exports = (sequelize, DataTypes) => {
        */
       beforeCreate(user) {
         user.hashPassword()
+      },
+      beforeUpdate(user) {
+       if (user.password) { user.hashPassword() }
       }
     }
   })
