@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/node:12.16.1
     steps:
-      - run: 
+      - run:  
           name: Just let it pass
           command: |
             echo 'Hello world'
