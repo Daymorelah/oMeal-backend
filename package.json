@@ -14,7 +14,9 @@
     "recreate_migration": "yarn db:undo:migration && yarn db:migrate",
     "test": "NODE_ENV=test yarn db:undo:migrate:test && NODE_ENV=test yarn db:migrate:test && NODE_ENV=test yarn db:seed && NODE_ENV=test nyc --reporter=html --reporter=text mocha  --exit -r @babel/register -r @babel/polyfill 'src/**/**.spec.js'",
     "db:undo:migrate:test": "NODE_ENV=test node_modules/.bin/sequelize db:migrate:undo:all",
-    "db:migrate:test": "NODE_ENV=test node_modules/.bin/sequelize db:migrate"
+    "db:migrate:test": "NODE_ENV=test node_modules/.bin/sequelize db:migrate",
+    "host-on-heroku": "yarn build && node dist/server.js",
+    "build": "babel src/ -d dist --ignore src/test,src/seeders"
   },
   "engines": {
     "node": "12.16.1"
