@@ -56,10 +56,10 @@ describe('Unit tests for helper methods', () => {
   it('should return 422 status code and the error '
   + 'message when "SequelizeValidationError" error is caught', () => {
     error.name = 'SequelizeValidationError';
+    error.errors = [{message: 'An error occurred validating your request'}];
     const response = HelperMethods.sequelizeErrorHandler(error, res);
     expect(response).to.have.property('message');
     expect(response).to.have.property('status');
-    expect(response).to.have.property('errors');
     expect(response.status).to.equal(422);
     expect(response.message).to.equal('An error occurred validating your request'); 
   });
@@ -67,10 +67,10 @@ describe('Unit tests for helper methods', () => {
   it('should return 422 status code and the error '
   + 'message when "SequelizeForeignKeyConstraintError" error is caught', () => {
     error.name = 'SequelizeForeignKeyConstraintError';
+    error.errors = [{message: 'An error occurred foreign Key constraint'}];
     const response = HelperMethods.sequelizeErrorHandler(error, res);
     expect(response).to.have.property('message');
     expect(response).to.have.property('status');
-    expect(response).to.have.property('errors');
     expect(response.status).to.equal(422);
     expect(response.message).to.equal('An error occurred foreign Key constraint'); 
   });
@@ -78,10 +78,10 @@ describe('Unit tests for helper methods', () => {
   it('should return 422 status code and the error '
   + 'message when "SequelizeDatabaseError" error is caught', () => {
     error.name = 'SequelizeDatabaseError';
+    error.errors = [{message: 'An error occurred foreign Key constraint'}];
     const response = HelperMethods.sequelizeErrorHandler(error, res);
     expect(response).to.have.property('message');
     expect(response).to.have.property('status');
-    expect(response).to.have.property('errors');
     expect(response.status).to.equal(422);
     expect(response.message).to.equal('An error occurred foreign Key constraint'); 
   });

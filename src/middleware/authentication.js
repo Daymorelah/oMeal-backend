@@ -1,12 +1,12 @@
 import { body, } from 'express-validator';
 
 export const validateSignUpDetails = () => ([
-  body('username').not().isEmpty(),
-  body('username', 'must be at least 5 characters long').isString().trim().isLength({ min: 5 }),
+  body('username', 'Username cannot be empty').not().isEmpty().trim(),
+  body('username', 'must be at least 5 characters long').isLength({ min: 5 }).trim(),
   body('email', 'Email cannot be empty').not().isEmpty().trim(),
   body('email', 'Please enter a valid email').isEmail().trim(),
   body('password', 'Password cannot be empty').not().isEmpty().trim(),
-  body('password', 'Password must be at least 6 characters long').isLength({ min: 6 }),
+  body('password', 'Password must be at least 6 characters long').isLength({ min: 6 }).trim(),
 ])
 
 export const validateLoginDetails = () => ([

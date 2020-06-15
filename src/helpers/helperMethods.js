@@ -61,36 +61,28 @@ class HelperMethods {
     if (err.name === 'SequelizeValidationError') {
       return res.status(422).json({
         status: 422,
-        message: 'An error occurred validating your request',
-        errors: err.errors.map(error => ({
-          field: error.path,
-          message: error.message,
-          location: 'database'
-        })),
+        message: err.errors[0].message,
       })
     }
   
     if (err.name === 'SequelizeForeignKeyConstraintError') {
       return res.status(422).json({
         status: 422,
-        message: 'An error occurred foreign Key constraint',
-        errors: {
-          field: err.path,
-          message: err.parent.detail,
-          location: err.parent.table
-        }
+        message: err.errors[0].message,
+      })
+    }
+
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(422).json({
+        status: 422,
+        message: err.errors[0].message,
       })
     }
     
     if (err.name === 'SequelizeDatabaseError') {
       return res.status(422).json({
         status: 422,
-        message: 'An error occurred foreign Key constraint',
-        errors: {
-          field: err.path,
-          message: err.parent.detail,
-          location: err.parent.table
-        }
+        message: err.errors[0].message,
       })
     }
 
