@@ -60,6 +60,9 @@ module.exports = (sequelize, DataTypes) => {
        */
       beforeCreate(user) {
         user.hashPassword()
+      },
+      beforeUpdate(user) {
+       if (user.password) { user.hashPassword() }
       }
     }
   })

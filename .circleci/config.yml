@@ -3,12 +3,36 @@ jobs:
   build:
     docker:
       - image: circleci/node:12.16.1
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          NODE_ENV: test
+      - image:  circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: circle_test
+          POSTGRES_PASSWORD:
     steps:
-      - run:  
-          name: Just let it pass
+      - checkout
+      - run:
+          name: Start/Spin the PostgreSQL sever
+          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: install dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: migrate and seed the db
           command: |
-            echo 'Hello world'
-            pwd
-            ls -la
-            ls -la ~
-            echo $SHELL
+            yarn db:migrate
+            yarn db:seed
+      - run:
+          name: Run tests
+          command: yarn test
+
