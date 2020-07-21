@@ -51,6 +51,47 @@ class AuthController {
       return HelperMethods.serverError(res);
     }
   }
+  /**
+   * login a user
+   * Route: POST: /auth/login
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof AuthController
+   */
+  static async login(req, res) {
+    try {
+      const { email, password, } = req.body;
+      let userFound = await User.findOne({ where: { email }});
+      
+      if (!userFound) {
+        return HelperMethods.clientError(res, 'Email or password does not exist', 400);
+      }
+
+      const isPasswordValid = await userFound.verifyPassword(password);
+
+      if (userFound && isPasswordValid) {
+        const userDetails = omit(userFound.dataValues, ['password', 'isDeleted'])
+        
+        const tokenCreated = await Authentication.getToken({
+          id: userDetails.id,
+          username: userDetails.username,
+        });
+        
+        if (tokenCreated) {
+          userDetails.token = tokenCreated;
+          return res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            userDetails,
+          });
+        }
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res);
+    }
+  }
 }
 
 export default AuthController;

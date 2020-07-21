@@ -83,8 +83,9 @@ module.exports = (sequelize, DataTypes) => {
    * @param {String} password
    * @returns {Boolean} password match
    */
-  User.prototype.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password)
+  User.prototype.verifyPassword = function (password) {
+    const isPasswordCorrect = bcrypt.compareSync(password, this.password)
+    return isPasswordCorrect;
   }
 
   /**
