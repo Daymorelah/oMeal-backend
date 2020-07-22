@@ -1,4 +1,5 @@
 import authRoute from './authRoute';
+import menuRoute from './menuRoute';
 /**
  * Handles request
  * @param {object} app - An instance of the express module
@@ -12,6 +13,7 @@ const routes = app => {
     });
   });
   authRoute(app);
+  menuRoute(app);
 };
 
 export default routes;
