@@ -1,7 +1,7 @@
 import HelperMethods from '../helpers/helperMethods';
 import MenuController from '../controllers/menu';
 import Authorization from '../middleware/authorization';
-import { validateGetAMenu, validateEditMenu, validateCreateMenu, } from '../middleware/menu';
+import { validateGetAMenu, validateEditMenu, validateCreateMenu, validateDeleteMenu, } from '../middleware/menu';
 
 const menuRoutes = app => {
   app.get(
@@ -28,6 +28,13 @@ const menuRoutes = app => {
     validateCreateMenu(),
     HelperMethods.validateMiddleware,
     MenuController.createMenu,
+  );
+  app.patch(
+    '/api/v1/menu/archive',
+    Authorization.checkToken,
+    validateDeleteMenu(),
+    HelperMethods.validateMiddleware,
+    MenuController.deleteMenu,
   );
 };
 

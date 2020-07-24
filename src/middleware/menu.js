@@ -6,8 +6,9 @@ export const validateGetAMenu = () => ([
 ]);
 
 export const validateEditMenu = () => ([
-  body('id', 'The id field is required').notEmpty().isString().trim(),
-  body('id', 'Menu ID is not valid').isUUID().trim(),
+  body('id', 'The id field is required').notEmpty().trim(),
+  body('id', 'The id field must be a string').isString().trim(),
+  body('id', 'Menu Id is not valid').isUUID().trim(),
 ]);
 
 export const validateCreateMenu = () => ([
@@ -17,4 +18,10 @@ export const validateCreateMenu = () => ([
   body('prize', 'The prize field must be a string').isString().trim(),
   body('category', 'The category field is required').notEmpty().trim(),
   body('category', 'The category field must be a string').isString().trim(),
+]);
+
+export const validateDeleteMenu = () => ([
+  body('id', 'The id field is required').notEmpty().trim(),
+  body('id', 'The id field must be a string').isString().trim(),
+  body('id', 'Menu Id is not valid').isUUID().trim(),
 ]);
