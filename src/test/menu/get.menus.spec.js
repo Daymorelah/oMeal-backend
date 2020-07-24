@@ -4,24 +4,10 @@ import app from '../../server';
 
 const request = new Request(app)
 
-describe('Get/menu', () => {
-  let userToken = '';
-  before('Login user', async () => {
-    try {
-      const res = await request.post('/api/v1/auth/login')
-        .send({
-          email: 'demo2@demo.com', password: 'password'
-        })
-        .expect(200)
-      if (res) userToken = res.body.userDetails.token
-    } catch (err) {
-      if (err) { throw err }
-    }
-  })
+describe('Get/menus', () => {
   describe('Success', () => {
     it('should return all menus (paginated)', done => {
       request.get('/api/v1/menus')
-      .set({ 'x-access-token': userToken })
       .expect(200)
         .end((err, res) => {
           if (err) { throw err }
@@ -39,7 +25,6 @@ describe('Get/menu', () => {
     });
     it('should return limited data based on the limit query param', done => {
       request.get('/api/v1/menus?limit=2')
-        .set({ 'x-access-token': userToken })
         .expect(200)
         .end((err, res) => {
           if (err) { throw err }
