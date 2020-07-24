@@ -83,7 +83,7 @@ class MenuController {
     try {
       const menuFound = await Menu.findByPk(req.body.id);
 
-      if(!menuFound) return res.status(400).json({
+      if(!menuFound || menuFound.isDeleted) return res.status(400).json({
         success: false,
         message: 'Menu requested for to edit does not exist',
       });
@@ -135,6 +135,44 @@ class MenuController {
           success: true,
           message: 'Menu created successfully',
           menuCreated,
+        });
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res);
+    }
+  }
+
+   /**
+   * Delete menu
+   * Route: PATCH: /menu/archive
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof MenuController 
+   */
+  static async deleteMenu(req, res) {
+    try {
+      const menuFound = await Menu.findByPk(req.body.id);
+
+      if(!menuFound || menuFound.isDeleted) return res.status(400).json({
+        success: false,
+        message: 'Menu requested for does not exist',
+      });
+      
+      if(menuFound.userId !== req.decoded.id) {
+        return res.status(403).json({
+          success: false,
+          message: 'You are forbidden to access this resource',
+        });
+      }
+      
+      const menuEdited = await menuFound.update({ isDeleted: true, })
+
+      if(menuEdited) {
+        return res.status(200).json({
+          success: true,
+          message: 'Menu archived successfully',
         });
       }
     } catch (error) {
