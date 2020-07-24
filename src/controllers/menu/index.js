@@ -112,6 +112,36 @@ class MenuController {
       return HelperMethods.serverError(res, error.message);
     }
   }
+
+   /**
+   * Create menu
+   * Route: POST: /menu/
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof MenuController 
+   */
+  static async createMenu(req, res) {
+    try {
+      const menuDetails = ['name', 'prize', 'category'];
+      const data = pick(req.body, menuDetails);
+      data.userId = req.decoded.id;
+
+      let menuCreated = await Menu.create({ ...data, });
+      
+      if (menuCreated) {
+        menuCreated = omit(menuCreated.dataValues, 'isDeleted');
+        return res.status(201).json({
+          success: true,
+          message: 'Menu created successfully',
+          menuCreated,
+        });
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res);
+    }
+  }
 }
 
 export default MenuController;
