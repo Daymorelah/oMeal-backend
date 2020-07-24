@@ -1,3 +1,4 @@
+import { pick, omit } from 'lodash'
 import Models from '../../models'
 import HelperMethods from '../../helpers/helperMethods';
 
@@ -67,6 +68,48 @@ class MenuController {
     } catch (error) {
       if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
       return HelperMethods.serverError(res);
+    }
+  }
+
+  /**
+   * Edit menu
+   * Route: PATCH: /menu/
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof MenuController 
+   */
+  static async editMenu(req, res) {
+    try {
+      const menuFound = await Menu.findByPk(req.body.id);
+
+      if(!menuFound) return res.status(400).json({
+        success: false,
+        message: 'Menu requested for to edit does not exist',
+      });
+
+      if(menuFound.userId !== req.decoded.id) {
+        return res.status(403).json({
+          success: false,
+          message: 'You are forbidden to access this resource',
+        });
+      }
+
+      const data = pick(req.body, ['name', 'prize', 'category'])
+
+      let menuEdited = await menuFound.update(data, { returning: true })
+
+      if(menuEdited) {
+        menuEdited = omit(menuEdited.dataValues, 'isDeleted');
+        return res.status(200).json({
+          success: true,
+          message: 'Menu edited successfully',
+          menu: menuEdited,
+        });
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res, error.message);
     }
   }
 }
