@@ -1,7 +1,7 @@
 import HelperMethods from '../helpers/helperMethods';
 import OrderController from '../controllers/order';
 import Authorization from '../middleware/authorization';
-import { validateCreateOrder, validateGetAnOrder, validateEditAnOrder, } from '../middleware/order';
+import { validateCreateOrder, validateGetAnOrder, validateEditAnOrder, validateDeleteAnOrder, } from '../middleware/order';
 
 const orderRoutes = app => {
   app.post(
@@ -30,6 +30,13 @@ const orderRoutes = app => {
     validateEditAnOrder(),
     HelperMethods.validateMiddleware,
     OrderController.editAnOrder,
+  );
+  app.patch(
+    '/api/v1/order/archive',
+    Authorization.checkToken,
+    validateDeleteAnOrder(),
+    HelperMethods.validateMiddleware,
+    OrderController.deleteOrder,
   );
 };
 

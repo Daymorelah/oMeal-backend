@@ -68,7 +68,6 @@ class OrderController {
         message: 'There are no orders available',
       });
     } catch (error) {
-      console.log('error is ==> ', error);
       if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
       return HelperMethods.serverError(res);
     }
@@ -152,6 +151,44 @@ class OrderController {
     } catch (error) {
       if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
       return HelperMethods.serverError(res, error.message);
+    }
+  }
+
+   /**
+   * Delete order
+   * Route: PATCH: /order/archive
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof OrderController 
+   */
+  static async deleteOrder(req, res) {
+    try {
+      const orderFound = await Order.findByPk(req.body.id);
+
+      if(!orderFound || orderFound.isDeleted) return res.status(400).json({
+        success: false,
+        message: 'Order requested for does not exist',
+      });
+      
+      if(orderFound.userId !== req.decoded.id) {
+        return res.status(403).json({
+          success: false,
+          message: 'You are forbidden to access this resource',
+        });
+      }
+      
+      const orderEdited = await orderFound.update({ isDeleted: true, })
+
+      if(orderEdited) {
+        return res.status(200).json({
+          success: true,
+          message: 'Order archived successfully',
+        });
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res);
     }
   }
 }
