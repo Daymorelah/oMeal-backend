@@ -1,7 +1,7 @@
 import HelperMethods from '../helpers/helperMethods';
 import OrderController from '../controllers/order';
 import Authorization from '../middleware/authorization';
-import { validateCreateOrder, } from '../middleware/order';
+import { validateCreateOrder, validateGetAnOrder, } from '../middleware/order';
 
 const orderRoutes = app => {
   app.post(
@@ -16,6 +16,13 @@ const orderRoutes = app => {
     Authorization.checkToken,
     HelperMethods.paginateMiddleware,
     OrderController.getAllOrders,
+  );
+  app.get(
+    '/api/v1/order/:id',
+    Authorization.checkToken,
+    validateGetAnOrder(),
+    HelperMethods.validateMiddleware,
+    OrderController.getAnOrder,
   );
 };
 
