@@ -1,6 +1,7 @@
 import authRoute from './authRoute';
 import menuRoute from './menuRoute';
 import orderRoute from './orderRoute';
+import socialAuth from './socialAuthRoute';
 
 /**
  * Handles request
@@ -15,6 +16,7 @@ const routes = app => {
       message: 'Welcome to the OMeal API'
     });
   });
+  socialAuth(app);
   authRoute(app);
   menuRoute(app);
   orderRoute(app);
