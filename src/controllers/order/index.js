@@ -112,6 +112,48 @@ class OrderController {
       return HelperMethods.serverError(res);
     }
   }
+
+  /**
+   * Edit order
+   * Route: PATCH: /order
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof OrderController 
+   */
+  static async editAnOrder(req, res) {
+    try {
+      const orderFound = await Order.findByPk(req.body.id);
+
+      if(!orderFound || orderFound.isDeleted) return res.status(400).json({
+        success: false,
+        message: 'Order requested for to edit does not exist',
+      });
+
+      if(orderFound.userId !== req.decoded.id) {
+        return res.status(403).json({
+          success: false,
+          message: 'You are forbidden to access this resource',
+        });
+      }
+
+      const data = pick(req.body, ['meal', 'drink', 'address', 'orderType', 'phoneNumber'])
+
+      let orderEdited = await orderFound.update(data, { returning: true })
+
+      if(orderEdited) {
+        orderEdited = omit(orderEdited.dataValues, 'isDeleted');
+        return res.status(200).json({
+          success: true,
+          message: 'Order edited successfully',
+          order: orderEdited,
+        });
+      }
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res, error.message);
+    }
+  }
 }
 
 export default OrderController;

@@ -18,6 +18,13 @@ export const validateCreateOrder = () => ([
 ]);
 
 export const validateGetAnOrder = () => ([
-  param('id', 'The id field is required').notEmpty().isString().trim(),
+  param('id', 'The id field is required').notEmpty().trim(),
+  param('id', 'The id field must be a string').isString().trim(),
   param('id', 'Order Id is not valid').isUUID().trim(),
+]);
+
+export const validateEditAnOrder = () => ([
+  body('id', 'The id field is required').notEmpty().trim(),
+  body('id', 'The id field must be a string').isString().trim(),
+  body('id', 'Order Id is not valid').isUUID().trim(),
 ]);

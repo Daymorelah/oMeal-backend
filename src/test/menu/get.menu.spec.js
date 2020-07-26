@@ -26,7 +26,7 @@ describe('Get/menu', () => {
         if (err) { throw err }
         expect(res.body.success).to.equal(false)
         expect(res.body.errors[0]).to.have.property('id')
-        expect(res.body.errors[0].id).to.equal('Menu ID is not valid')
+        expect(res.body.errors[0].id).to.equal('Menu Id is not valid')
         done()
       })
     });
