@@ -4,7 +4,7 @@ import app from '../../server';
 
 const request = new Request(app)
 
-describe('Patch/menu', () => {
+describe('Patch/order', () => {
   let userToken = '';
   before('Login user', async () => {
     try {
@@ -19,28 +19,28 @@ describe('Patch/menu', () => {
     }
   });
   describe('Success', () => {
-    it('should edit a menu successfully', done => {
-      const menuData = {
-        id: '1446fda4-ac1f-4d33-be0c-07f4c6e68221',
-        name: 'Cup cake',
+    it('should edit an order successfully', done => {
+      const orderData = {
+        id: 'd25eb545-718c-415b-bf7a-1820acc44fe1',
+        address: 'No. 6 oluwo street, Ishaga, Lagos',
       };
-      request.patch('/api/v1/menu')
+      request.patch('/api/v1/order')
         .set({ 'x-access-token': userToken })
-        .send(menuData)
+        .send(orderData)
         .expect(200)
         .end((err, res) => {
           if (err) { throw err }
           expect(res.body.success).to.equal(true)
-          expect(res.body.message).to.equal('Menu edited successfully')
-          expect(res.body).to.have.property('menu')
-          expect(res.body.menu.name).to.equal('Cup cake')
+          expect(res.body.message).to.equal('Order edited successfully')
+          expect(res.body).to.have.property('order')
+          expect(res.body.order.address).to.equal('No. 6 oluwo street, Ishaga, Lagos')
           done()
         })
     })
   });
   describe('Failure', () => {
-    it('should prevent an unauthorized user from editing a menu', done => {
-      request.patch('/api/v1/menu')
+    it('should prevent an unauthorized user from editing an order', done => {
+      request.patch('/api/v1/order')
         .set({ 'x-access-token': 'userToken' })
         .send({})
         .expect(401)
@@ -51,13 +51,13 @@ describe('Patch/menu', () => {
           done()
         })
     });
-    it('should not edit a menu when menu ID is missing', done => {
-      const menuData = {
-        name: 'password',
+    it('should not edit an order when an order Id is missing', done => {
+      const orderData = {
+        phoneNumber: '07032958177',
       };
-      request.patch('/api/v1/menu')
+      request.patch('/api/v1/order')
         .set({ 'x-access-token': userToken })
-        .send(menuData)
+        .send(orderData)
         .expect(400)
         .end((err, res) => {
           if (err) { throw err }
@@ -67,10 +67,10 @@ describe('Patch/menu', () => {
           done()
         });
     });
-    it('should prevent a registered user from editing a menu not created by the user', done => {
-      request.patch('/api/v1/menu')
+    it('should prevent a registered user from editing an order not created by the user', done => {
+      request.patch('/api/v1/order')
         .set({ 'x-access-token': userToken })
-        .send({ id: '4d20722d-f760-4cc2-8304-bc5f5c41ccec' })
+        .send({ id: 'dafc552a-6002-44af-ad6b-84ac38655ebd' })
         .expect(403)
         .end((err, res) => {
           if (err) { throw err }

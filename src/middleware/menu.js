@@ -1,8 +1,9 @@
 import { body, param } from 'express-validator';
 
 export const validateGetAMenu = () => ([
-  param('id', 'The id field is required').notEmpty().isString().trim(),
-  param('id', 'Menu ID is not valid').isUUID().trim(),
+  param('id', 'The id field is required').notEmpty().trim(),
+  param('id', 'The id field must be a string').isString().trim(),
+  param('id', 'Menu Id is not valid').isUUID().trim(),
 ]);
 
 export const validateEditMenu = () => ([
