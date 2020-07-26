@@ -28,3 +28,9 @@ export const validateEditAnOrder = () => ([
   body('id', 'The id field must be a string').isString().trim(),
   body('id', 'Order Id is not valid').isUUID().trim(),
 ]);
+
+export const validateDeleteAnOrder = () => ([
+  body('id', 'The id field is required').notEmpty().trim(),
+  body('id', 'The id field must be a string').isString().trim(),
+  body('id', 'Order Id is not valid').isUUID().trim(),
+]);
