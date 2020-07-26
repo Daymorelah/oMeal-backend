@@ -11,6 +11,12 @@ const orderRoutes = app => {
     HelperMethods.validateMiddleware,
     OrderController.createOrder,
   );
+  app.get(
+    '/api/v1/orders',
+    Authorization.checkToken,
+    HelperMethods.paginateMiddleware,
+    OrderController.getAllOrders,
+  );
 };
 
 export default orderRoutes

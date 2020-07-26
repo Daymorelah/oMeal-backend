@@ -30,6 +30,10 @@ module.exports = {
       type: Sequelize.UUID,
       allowNull: false,
     },
+    isDeleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
