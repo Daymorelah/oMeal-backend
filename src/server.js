@@ -1,9 +1,11 @@
 import express from 'express';
+import passport from 'passport';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import routes from './routes';
+import './helpers/strategies';
 
 dotenv.config();
 
@@ -14,10 +16,11 @@ if (app.get('env') !== 'test') {
   app.use(logger('dev'));
 }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.set('x-powered-by', false);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
   methods: 'GET,HEAD,PUT,POST,DELETE',
@@ -37,6 +40,7 @@ app.all('*', (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log('err is ==> ', err);
   res.status(500).json({
     code: 500,
     message: 'Something failed',
