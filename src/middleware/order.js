@@ -1,4 +1,4 @@
-import { body, } from 'express-validator';
+import { body, param, } from 'express-validator';
 
 export const validateCreateOrder = () => ([
   body('meal', 'The meal field is required').notEmpty().trim(),
@@ -15,4 +15,9 @@ export const validateCreateOrder = () => ([
 
   body('orderType', 'The orderType field is required').notEmpty().trim(),
   body('orderType', 'The orderType field must be a string').isString().trim(),
+]);
+
+export const validateGetAnOrder = () => ([
+  param('id', 'The id field is required').notEmpty().isString().trim(),
+  param('id', 'Order Id is not valid').isUUID().trim(),
 ]);

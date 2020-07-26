@@ -73,6 +73,45 @@ class OrderController {
       return HelperMethods.serverError(res);
     }
   }
+
+  /**
+   * Get an Order
+   * Route: GET: /order/:id
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof OrderController
+   */
+  static async getAnOrder(req, res) {
+    try {
+      const order = await Order.findByPk(req.params.id, { where: { isDeleted: false }, attributes: {exclude: ['isDeleted'] }});
+      
+      if(!order) {
+        return res.status(400).json({
+          success: false,
+          message: 'The order requested for does not exist',
+        });
+      }
+
+      if(order.userId !== req.decoded.id) {
+        return res.status(403).json({
+          success: false,
+          message: 'You are forbidden to access this resource',
+        });
+      }
+
+      if (order) {
+        return res.status(200).json({
+          success: true,
+          order,
+        });
+      }
+      
+    } catch (error) {
+      if (error.name) return HelperMethods.sequelizeErrorHandler(error, res);
+      return HelperMethods.serverError(res);
+    }
+  }
 }
 
 export default OrderController;
