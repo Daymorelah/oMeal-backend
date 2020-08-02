@@ -13,7 +13,7 @@ describe('Post/Order', () => {
           email: 'demo2@demo.com', password: 'password'
         })
         .expect(200)
-      if (res) userToken = res.body.userDetails.token
+      if (res) userToken = res.body.token
     } catch (err) {
       if (err) { throw err }
     }

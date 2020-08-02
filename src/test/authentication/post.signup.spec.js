@@ -17,7 +17,7 @@ describe('Post/signup', () => {
         .expect(201)
         .end((err, res) => {
           if (err) { throw err }
-          expect(res.body.userDetails.email).to.equal(userData.email)
+          expect(res.body.success).to.equal(true)
           expect(res.body.userDetails.username).to.equal(userData.username)
           expect(res.body).to.have.property('token');
           done();

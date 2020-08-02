@@ -60,6 +60,18 @@ class Authentication {
       }
     );
   }
+
+  /**
+   * This method generates a JWT token for social authentication responses
+   * @param {Object} payload - payload used to generate the token
+   * @param {string} time = how long do you want the token to be valid. default value is 1 day.
+   */
+  static generateSocialAuthToken(payload, time) {
+    let token = jwt.sign(payload, process.env.SOCIAL_AUTH_SECRET,
+      { expiresIn: time || 24});
+    token = shuffleToken(token);
+    return token;
+  }
 }
 
 export default Authentication;

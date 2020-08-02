@@ -17,8 +17,8 @@ describe('Post/login', () => {
         .end((err, res) => {
           if (err) { throw err }
           expect(res.body.success).to.equal(true);
-          expect(res.body.userDetails.email).to.equal(userData.email)
-          expect(res.body.userDetails).to.have.property('token');
+          expect(res.body.message).to.equal('Login successful')
+          expect(res.body).to.have.property('token');
           done();
         });
     });
