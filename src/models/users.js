@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    profilePicture: {
+      type:DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     tableName: 'users',
     hooks: {

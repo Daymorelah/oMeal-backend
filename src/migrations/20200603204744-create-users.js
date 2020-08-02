@@ -36,6 +36,10 @@ module.exports = {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
+    profilePicture: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

@@ -34,7 +34,7 @@ class AuthController {
       const userCreated = await User.create({ ...reqBody, });
       
       if (userCreated) {
-        const userDetails = omit(userCreated.dataValues, ['password', 'isDeleted'])
+        const userDetails = omit(userCreated.dataValues, ['password', 'isDeleted', 'email'])
         const tokenCreated = await Authentication.getToken({
           id: userDetails.id,
           username: userDetails.username,
@@ -71,7 +71,7 @@ class AuthController {
       const isPasswordValid = await userFound.verifyPassword(password);
 
       if (userFound && isPasswordValid) {
-        const userDetails = omit(userFound.dataValues, ['password', 'isDeleted'])
+        const userDetails = omit(userFound.dataValues, ['password', 'isDeleted', 'email'])
         
         const tokenCreated = await Authentication.getToken({
           id: userDetails.id,
@@ -79,11 +79,11 @@ class AuthController {
         });
         
         if (tokenCreated) {
-          userDetails.token = tokenCreated;
           return res.status(200).json({
             success: true,
             message: 'Login successful',
             userDetails,
+            token: tokenCreated,
           });
         }
       }
