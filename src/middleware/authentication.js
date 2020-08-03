@@ -13,4 +13,5 @@ export const validateLoginDetails = () => ([
   body('email', 'Email cannot be empty').not().isEmpty().trim(),
   body('email', 'Please enter a valid email').isEmail().trim(),
   body('password', 'Password cannot be empty').not().isEmpty().trim(),
+  body('password', 'Password must be at least 6 characters long').isLength({ min: 6 }).trim(),
 ])
