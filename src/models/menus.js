@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   }, {
     tableName: 'menus',
   });
