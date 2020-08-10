@@ -27,7 +27,7 @@ module.exports = {
       category: 'Desert',
       userId: '06f6e70e-7861-4d02-ab68-284abb2be87a',
       isDeleted: false,
-      photo: 'https://res.cloudinary.com/o-meal/image/upload/v1563986838/o-meal/ice-cream.jpg',
+      photo: 'https://res.cloudinary.com/o-meal/image/upload/v1564131991/o-meal/Ice_Cream_Cone.jpg',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
