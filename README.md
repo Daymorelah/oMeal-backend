@@ -1,3 +1,5 @@
+[![Daymorelah](https://circleci.com/gh/Daymorelah/oMeal-backend.svg?style=svg)](https://app.circleci.com/pipelines/github/Daymorelah/oMeal-backend)
+
 # oMeal-backend
 A simple food-ordering app built with love from node.js
 
